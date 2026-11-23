@@ -588,12 +588,12 @@ function renderMarkdown(src, link, slugCache) {
       continue;
     }
     if (line.charCodeAt(0) === 62) {
-      const body = [];
+      const kept = [];
       while (i < n && lines[i].charCodeAt(0) === 62) {
         const l = lines[i++];
-        body.push(trimLine(l.startsWith('> ') ? l.slice(2) : l.slice(1)));
+        const t = trimLine(l.startsWith('> ') ? l.slice(2) : l.slice(1));
+        if (t !== '') kept.push(t);
       }
-      const kept = body.filter((l) => l !== '');
       blocks.push(kept.length === 0 ? '<blockquote>\n</blockquote>' : `<blockquote>\n<p>${inline(kept.join('\n'), link)}</p>\n</blockquote>`);
       continue;
     }
